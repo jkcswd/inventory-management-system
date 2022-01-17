@@ -3,8 +3,8 @@
 + name: String
 + description: String
 + category: Category[1]
-+ price: Float
-+ number in Stock: Int
++ price: Number
++ number in Stock: Number
 
 + url: String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>450</x><y>50</y><w>210</w><h>100</h></coordinates><panel_attributes>Category
 --
