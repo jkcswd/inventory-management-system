@@ -17,8 +17,6 @@ router.get('/category', categoryController.categoryIndex);
 // GET request for one category.
 router.get('/category/:id', categoryController.categoryDetail);
 
-// GET request for list of all category items.
-router.get('/category', categoryController.categoryList);
 
 // Item routes 
 
