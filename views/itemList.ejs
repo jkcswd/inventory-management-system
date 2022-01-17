@@ -1,0 +1,10 @@
+<%- include('header') -%>
+
+<h1><%= title %></h1>
+<ul>
+  <% items.forEach((item) => { %>
+    <li><%= item.name %></li>
+  <% }) %>
+</ul>
+
+<%- include('footer') -%>
