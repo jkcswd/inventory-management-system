@@ -1,5 +1,9 @@
 const Category = require('../models/category');
 
+exports.categoryIndex = (req, res) => {
+  res.send('NOT IMPLEMENTED: category index')
+};
+
 // Display list of all categories.
 exports.categoryList = (req, res) => {
   res.send('NOT IMPLEMENTED: category list');
