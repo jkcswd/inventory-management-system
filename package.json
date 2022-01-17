@@ -8,6 +8,7 @@
     "killport": "kill -9 $(lsof -t -i:3000)"
   },
   "dependencies": {
+    "async": "^3.2.3",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^14.1.0",
