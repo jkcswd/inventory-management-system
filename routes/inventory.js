@@ -23,6 +23,9 @@ router.get('/category/:id', categoryController.categoryDetail);
 // Item home page
 router.get('/item', itemController.itemIndex);
 
+// GET request for list of all item items.
+router.get('/item/list', itemController.itemList);
+
 // GET request for creating an item.
 router.get('/item/create', itemController.itemCreateGet);
 
@@ -44,8 +47,6 @@ router.post('/item/:id/update', itemController.itemUpdatePost);
 // GET request for one item.
 router.get('/item/:id', itemController.itemDetail);
 
-// GET request for list of all item items.
-router.get('/item', itemController.itemList);
 
 
 module.exports = router;
