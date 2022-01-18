@@ -1,3 +1,4 @@
+const Category = require('../models/category');
 const Item = require('../models/item');
 
 // Item index page GET
@@ -43,7 +44,17 @@ exports.itemDetail = (req, res, next) => {
 
 // Display item create form on GET.
 exports.itemCreateGet = (req, res) => {
-  res.send('NOT IMPLEMENTED: item create GET');
+  Category.find().exec((err, categories)=> {
+    if (err) { return next(err); }
+
+    if (categories === null) {
+      const err = new Error('categories not found');
+      err.status = 404;
+      return next(err);
+    }
+
+    res.render('itemForm', {categories: categories});
+  }); 
 };
 
 // Handle item create on POST.
