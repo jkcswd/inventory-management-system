@@ -1,0 +1,16 @@
+<%- include('header') -%>
+
+<form action="Post">
+  <input type="text" name="name" id="name">
+  <input type="text" name="description" id="description">
+  <select name="" id="">
+    <% categories.forEach((category) => { %>
+      <option><%= category.name %></option>
+    <% }) %>
+  </select>
+  <input type="number" name="price" id="price">
+  <input type="number" name="number-in-stock" id="number-in-stock">
+  <input type="submit">
+</form>
+
+<%- include('footer') -%>
