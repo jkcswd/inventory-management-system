@@ -12,8 +12,8 @@ const ItemSchema = new Schema(
   }
 );
 
-ItemSchema.virtual('url').get(() => {
-  return '/inventory/item' + this._id;
+ItemSchema.virtual('url').get(function() { // Not using arrow function as 'this' is not bound lexically
+  return '/inventory/item/' + this._id;
 });
 
 
