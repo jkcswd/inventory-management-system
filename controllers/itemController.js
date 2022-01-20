@@ -1,3 +1,5 @@
+const { body, validationResult } = require('express-validator');
+
 const Category = require('../models/category');
 const Item = require('../models/item');
 
@@ -53,14 +55,56 @@ exports.itemCreateGet = (req, res) => {
       return next(err);
     }
 
-    res.render('itemForm', {categories: categories});
+    res.render('itemForm', { categories: categories, errors: null });
   }); 
 };
 
 // Handle item create on POST.
-exports.itemCreatePost = (req, res) => {
-  res.send('NOT IMPLEMENTED: item create POST');
-};
+exports.itemCreatePost = [
+  body('name', 'Name must not be empty').trim().isLength({ min: 1 }).escape(),
+  body('description', 'Description must not be empty').trim().isLength({ min: 1 }).escape(),
+  body('category').escape(),
+  body('price', 'Price must have a numeric value greater than 0').trim().isNumeric({ min: 0 }).escape(),
+  body('quantity', 'Number in stock must be a number greater than 0').trim().isNumeric({ min: 0 }).escape(),
+  
+  (req, res, next) => {
+    const categoryId = Category.findOne({name:req.body.category}).exec((err, categoryInstance) => {
+      if (err) { return next(err); }
+      console.log(categoryInstance);
+      const errors = validationResult(req);
+      const item = new Item(
+        {
+          name: req.body.name,
+          description: req.body.description,
+          category: categoryInstance.id,
+          price: req.body.price,
+          numberInStock: req.body.quantity
+        }
+      );
+
+      console.log(item)
+
+      if (!errors.isEmpty()) {
+        res.render('itemForm',
+          {
+            name: req.body.name,
+            description: req.body.description,
+            category: req.body.category,
+            price: req.body.price,
+            quantity: req.body.quantity,
+            errors: errors.array()
+          }
+        );
+      } else {
+        item.save((err) => {
+          if (err) { return next(err); }
+  
+          res.redirect(item.url);
+        })
+      }
+    });
+  }
+]
 
 // Display item delete form on GET.
 exports.itemDeleteGet = (req, res) => {
