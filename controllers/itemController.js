@@ -56,7 +56,14 @@ exports.itemCreateGet = (req, res) => {
       return next(err);
     }
 
-    res.render('itemForm', { categories: categories, errors: null });
+    res.render('itemForm', { 
+      name: '',
+      description: '',
+      price: '',
+      quantity: '',
+      categories: categories, 
+      errors: null 
+    });
   }); 
 };
 
@@ -170,5 +177,43 @@ exports.itemUpdateGet = (req, res, next) => {
 
 // Handle item update on POST.
 exports.itemUpdatePost = [
+  body('name', 'Name must not be empty').trim().isLength({ min: 1 }).escape(),
+  body('description', 'Description must not be empty').trim().isLength({ min: 1 }).escape(),
+  body('category').escape(),
+  body('price', 'Price must have a numeric value greater than 0').trim().isNumeric({ min: 0 }).escape(),
+  body('quantity', 'Number in stock must be a number greater than 0').trim().isNumeric({ min: 0 }).escape(),
 
+  (req, res, next) => {
+    const errors = validationResult(req);
+
+    const item = new Item(
+      {
+        name: req.body.name,
+        description: req.body.description,
+        category: req.body.category,
+        price: req.body.price,
+        numberInStock: req.body.quantity,
+        _id:req.params.id // Required or error thrown for trying to update immutable field.
+      }
+    );
+
+    if (!errors.isEmpty()) {
+      res.render('itemForm',
+        {
+          name: req.body.name,
+          description: req.body.description,
+          category: req.body.category,
+          price: req.body.price,
+          quantity: req.body.quantity,
+          errors: errors.array()
+        }
+      );
+    } else {
+      Item.findByIdAndUpdate(req.params.id, item, {}, (err, updatedItem) => {
+        if (err) { return next(err); }
+
+        res.redirect(updatedItem.url);
+      })
+    }
+  }
 ];
