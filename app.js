@@ -3,10 +3,13 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-require('dotenv').config()
+const compression = require('compression');
+const helmet = require('helmet');
+
+require('dotenv').config();
 
 const indexRouter = require('./routes/index');
-const inventoryRouter = require('./routes/inventory')
+const inventoryRouter = require('./routes/inventory');
 
 const app = express();
 
@@ -17,6 +20,11 @@ mongoose.connect(mongoDB, { useNewUrlParser: true , useUnifiedTopology: true});
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
+// Use helmet
+app.use(helmet());
+
+// Compress all routes
+app.use(compression());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
