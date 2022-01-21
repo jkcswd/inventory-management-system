@@ -3,4 +3,10 @@
 <h1><%= title %></h1>
 <p><%= description %></p>
 
+<ul>
+  <% items.forEach((item) => { %>
+    <li> <a href="<%= item.url %>"><%= item.name %></a></li>
+  <% }) %>
+</ul>
+
 <%- include('footer') -%>
