@@ -107,7 +107,7 @@ exports.itemCreatePost = [
 ]
 
 // Display item delete form on GET.
-exports.itemDeleteGet = (req, res) => {
+exports.itemDeleteGet = (req, res, next) => {
   Item.findById(req.params.id).exec((err, item) =>{
     if (err) { return next(err); }
 
@@ -123,7 +123,7 @@ exports.itemDeleteGet = (req, res) => {
 
 // Handle item delete on POST.
 exports.itemDeletePost = (req, res) => {
-  res.send('NOT IMPLEMENTED: item delete POST');
+  
 };
 
 // Display item update form on GET.
