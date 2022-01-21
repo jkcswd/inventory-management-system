@@ -6,7 +6,7 @@ const itemController = require('../controllers/itemController');
 
 // Inventory home page route 
 router.get('/', (req, res, next) => {
-  res.render('index', { title: 'Product inventory' });
+  res.render('index', { title: 'RoCorp Inventory Management'});
 });
 
 // Category routes 
