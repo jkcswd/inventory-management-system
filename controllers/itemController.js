@@ -1,4 +1,5 @@
 const { body, validationResult } = require('express-validator');
+const async = require('async')
 
 const Category = require('../models/category');
 const Item = require('../models/item');
@@ -102,7 +103,7 @@ exports.itemCreatePost = [
       }
     });
   }
-]
+];
 
 // Display item delete form on GET.
 exports.itemDeleteGet = (req, res, next) => {
@@ -132,11 +133,42 @@ exports.itemDeletePost = [
   }
 ]
 // Display item update form on GET.
-exports.itemUpdateGet = (req, res) => {
-  res.send('NOT IMPLEMENTED: item update GET');
+exports.itemUpdateGet = (req, res, next) => {
+  async.parallel({
+    categories: (cb) => {
+      Category.find(cb);
+    },
+    item: (cb) => {
+      Item.findById(req.params.id).exec(cb);
+    },
+    }, (err, results) => {
+      if (err) { return next(err); }
+
+      if (results.categories === null) {
+        const err = new Error('Categories not found');
+        err.status = 404;
+        return next(err);
+      }
+
+      if (results.item === null) {
+        const err = new Error('Item not found');
+        err.status = 404;
+        return next(err);
+      }
+
+      res.render('itemForm',{
+        name: results.item.name,
+        description: results.item.description,
+        category: results.item.category,
+        price: results.item.price,
+        quantity: results.item.numberInStock,
+        errors: null,
+        categories: results.categories
+      });
+    });
 };
 
 // Handle item update on POST.
-exports.itemUpdatePost = (req, res) => {
-  res.send('NOT IMPLEMENTED: item update POST');
-};
+exports.itemUpdatePost = [
+
+];
