@@ -1,0 +1,11 @@
+<%- include('header') -%>
+
+<h1>Delete item:<%= name %> </h1>
+
+<p>Are you sure you want to delete this item?</p>
+<form action="" method="POST">
+  <input type="text" name="item" value="'<%= id %>'" required hidden>
+  <input type="submit" value="Delete">
+</form>
+
+<%- include('footer') -%>
