@@ -1,15 +1,15 @@
 <%- include('header') -%>
 
 <form method="POST" action="">
-  <input type="text" name="name" id="name">
-  <input type="text" name="description" id="description">
+  <input type="text" name="name" id="name" value="<%= name %>">
+  <input type="text" name="description" id="description" value="<%= description %>">
   <select name="category" id="category">
     <% categories.forEach((category) => { %>
       <option><%= category.name %></option>
     <% }); %>
   </select>
-  <input type="number" name="price" id="price">
-  <input type="number" name="quantity" id="quantity">
+  <input type="number" name="price" id="price" value="<%= price %>">
+  <input type="number" name="quantity" id="quantity" value="<%= quantity %>">
   <input type="submit">
 </form>
 
