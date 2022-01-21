@@ -82,8 +82,6 @@ exports.itemCreatePost = [
         }
       );
 
-      console.log(item)
-
       if (!errors.isEmpty()) {
         res.render('itemForm',
           {
@@ -117,15 +115,22 @@ exports.itemDeleteGet = (req, res, next) => {
       return next(err);
     }
 
-    res.render('itemDelete', { name: item.name, id: item.id })
+    res.render('itemDelete', { name: item.name, id: item.id });
   });
 };
 
 // Handle item delete on POST.
-exports.itemDeletePost = (req, res) => {
-  
-};
+exports.itemDeletePost = [
+  body('item').escape(),
 
+  (req, res, next) => {
+    Item.findByIdAndRemove(req.body.item, (err) => {
+      if (err) { return next(err); }
+
+      res.redirect('/inventory/item');
+    });
+  }
+]
 // Display item update form on GET.
 exports.itemUpdateGet = (req, res) => {
   res.send('NOT IMPLEMENTED: item update GET');
