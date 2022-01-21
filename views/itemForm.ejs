@@ -5,7 +5,11 @@
   <input type="text" name="description" id="description" value="<%= description %>">
   <select name="category" id="category">
     <% categories.forEach((category) => { %>
-      <option><%= category.name %></option>
+      <% if (category.name === selectedCategory) { %>
+        <option selected><%= category.name %></option>
+      <% } else { %>
+        <option><%= category.name %></option>
+      <% } %>
     <% }); %>
   </select>
   <input type="number" name="price" id="price" value="<%= price %>">
