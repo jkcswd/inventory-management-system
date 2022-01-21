@@ -2,8 +2,9 @@
 
 <h1><%= title %></h1>
 <p><%= description %></p>
-<p><%= category %></p>
-<p>£<%= price %></p>
-<p><%= numberInStock %></p>
-
+<p>Category: <%= category %></p>
+<p>Price: £<%= price %></p>
+<p>Amount in stock: <%= numberInStock %></p>
+<a href="/inventory/item/<%= id %>/update">Update</a>
+<a href="/inventory/item/<%= id %>/delete">Delete</a>
 <%- include('footer') -%>
