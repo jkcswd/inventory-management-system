@@ -68,9 +68,9 @@ exports.itemCreatePost = [
   body('quantity', 'Number in stock must be a number greater than 0').trim().isNumeric({ min: 0 }).escape(),
   
   (req, res, next) => {
-    const categoryId = Category.findOne({name:req.body.category}).exec((err, categoryInstance) => {
+    Category.findOne({name:req.body.category}).exec((err, categoryInstance) => {
       if (err) { return next(err); }
-      console.log(categoryInstance);
+      
       const errors = validationResult(req);
       const item = new Item(
         {
@@ -108,7 +108,17 @@ exports.itemCreatePost = [
 
 // Display item delete form on GET.
 exports.itemDeleteGet = (req, res) => {
-  res.send('NOT IMPLEMENTED: item delete GET');
+  Item.findById(req.params.id).exec((err, item) =>{
+    if (err) { return next(err); }
+
+    if (item === null) {
+      const err = new Error('Item not found');
+      err.status = 404;
+      return next(err);
+    }
+
+    res.render('itemDelete', { name: item.name, id: item.id })
+  });
 };
 
 // Handle item delete on POST.
