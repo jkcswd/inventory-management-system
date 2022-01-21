@@ -40,7 +40,8 @@ exports.itemDetail = (req, res, next) => {
       description: itemInstance.description, 
       category: itemInstance.category.name, 
       price: itemInstance.price,
-      numberInStock: itemInstance.numberInStock
+      numberInStock: itemInstance.numberInStock,
+      id: itemInstance.id
     });
   });
 };
@@ -62,6 +63,7 @@ exports.itemCreateGet = (req, res) => {
       price: '',
       quantity: '',
       categories: categories, 
+      selectedCategory: null,
       errors: null 
     });
   }); 
@@ -146,7 +148,7 @@ exports.itemUpdateGet = (req, res, next) => {
       Category.find(cb);
     },
     item: (cb) => {
-      Item.findById(req.params.id).exec(cb);
+      Item.findById(req.params.id).populate('category').exec(cb);
     },
     }, (err, results) => {
       if (err) { return next(err); }
@@ -170,6 +172,7 @@ exports.itemUpdateGet = (req, res, next) => {
         price: results.item.price,
         quantity: results.item.numberInStock,
         errors: null,
+        selectedCategory: results.item.category.name,
         categories: results.categories
       });
     });
