@@ -1,4 +1,5 @@
 const Category = require('../models/category');
+const Item = require('../models/item')
 
 // Category index page with list of categories
 exports.categoryIndex = (req, res) => {
@@ -16,6 +17,16 @@ exports.categoryDetail = (req, res, next) => {
       return next(err);
     }
 
-    res.render('categoryDetail', { title: categoryInstance.name, description:  categoryInstance.description});
+    Item.find({ category: req.params.id }).exec((err, items) => {
+      if (err) { return next(err); }
+
+      // No error handling needed for items being empty as empty array is returned.
+
+      res.render('categoryDetail', { 
+        title: categoryInstance.name, 
+        description: categoryInstance.description,
+        items: items
+      });
+    })
   });
 };
